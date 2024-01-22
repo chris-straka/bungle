@@ -1,39 +1,39 @@
 # Bungle
 
-```bash
-./gradlew dev # Run the project in docker
+Install a jdk https://docs.aws.amazon.com/corretto/latest/corretto-21-ug/downloads-list.html
+Install docker desktop https://www.docker.com/products/docker-desktop/
 
-./gradlew clean build --refresh-dependencies # refresh gradle
+```bash
+# Make sure docker desktop is running 
+./gradlew bootRun 
+
+# refresh gradle after adding dependencies
+./gradlew clean build --refresh-dependencies 
 ```
 
-## Routes
-
-### Auth
+## Auth
 
 - Sign-in route + OAuth
 - Save/forgot password
 - Demo User
 
-### Home Screen
+## Home Screen
 
 - User's should be able to put where they are on a map
-- Other Bungler's should show up on the map
-- User should get weather/news alerts
-
-### Bungle Mode
-
-- Users insert their own text blurb or receive a random article from wikipedia
-- The user will store a list of familiar words they already understand
-- The user can turn on pinyin for that data
-
-### Song Mode
+- Other Bungler's could show up on the map
+- User is shown the weather and time depending on where they chose on the map
+- General news should be shown below the map
+- Spotify, weather, time and something else should be shown on the right
+- Wikipedia option maybe? Depending on what their API says
+- I think making it look like the spring docs with a menu on the left, map in the middle, articles below, 
 
 https://developer.spotify.com/documentation/web-playback-sdk
 
-## Resources
+## Bungle Mode
 
-https://docs.gradle.org/current/userguide/compatibility.html
+- Users insert their own text blurb or receive a random article from wikipedia or the news API
+- The backend will store a list of familiar words the user already understands
+- The user can "bungle" an article
+- The user can turn on pinyin for that data
 
-Docker compose support dependency
-https://docs.spring.io/spring-boot/docs/3.1.1/reference/htmlsingle/#features.docker-compose
-
+https://www.namecheap.com/domains/registration/results/?domain=bungle

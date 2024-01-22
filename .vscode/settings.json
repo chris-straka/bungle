@@ -1,4 +1,6 @@
 {
   "java.compile.nullAnalysis.mode": "automatic",
-  "java.import.gradle.java.home": "/usr/bin/java"
+  "java.import.gradle.java.home": "/usr/bin/java",
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "gradle.nestedProjects": true,
 }

@@ -5,8 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class BungleApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(BungleApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(BungleApplication.class, args);
+    }
 }

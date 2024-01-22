@@ -1,6 +1,6 @@
 plugins {
 	java
-	id("org.springframework.boot") version "3.2.1"
+	id("org.springframework.boot") version "3.2.2"
 	id("io.spring.dependency-management") version "1.1.4"
 }
 
@@ -20,9 +20,11 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-graphql")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-web")
-  implementation(platform("io.opentelemetry:opentelemetry-bom:1.34.1"))
   implementation("io.opentelemetry:opentelemetry-api")
-	developmentOnly("org.springframework.boot:spring-boot-devtools")
+	implementation("org.postgresql:postgresql:42.7.1")
+  implementation(platform("io.opentelemetry:opentelemetry-bom:1.34.1"))
+  developmentOnly("org.springframework.boot:spring-boot-docker-compose")
+	testAndDevelopmentOnly("org.springframework.boot:spring-boot-devtools")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework:spring-webflux")
 	testImplementation("org.springframework.graphql:spring-graphql-test")
@@ -46,5 +48,5 @@ tasks.register<Exec>("dev") {
 tasks.register<Exec>("tdd") {
 	group = "Application"
 	description = "Runs the project with continuous testing"
-	commandLine("docker-compose", "-f", "docker-compose-test.yml", "up")
+	commandLine("./gradlew", "test", "--continuous")
 }

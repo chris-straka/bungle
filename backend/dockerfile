@@ -1,27 +1,13 @@
-FROM amazoncorretto:21 AS build
-WORKDIR /app
-
-# Put gradle wrapper in the container so it doesn't install gradle
-COPY gradlew /app/
-COPY gradle /app/gradle
-COPY *.gradle.kts /app/
-
-# Copy the project files
-COPY src /app/src
-
-# Build the application using Gradle (creates /app/build)
-RUN ./gradlew clean build
-
-WORKDIR /app/build/libs
-RUN jar -xf *.jar
+FROM amazoncorretto:21 as builder
+WORKDIR app
+ARG JAR_FILE=build/libs/*.jar
+COPY ${JAR_FILE} app.jar
+RUN java -Djarmode=layertools -jar app.jar extract
 
 FROM amazoncorretto:21
-VOLUME /tmp
-
-# This first layer is the application dependencies
-COPY --from=build /app/build/libs/BOOT-INF/lib /app/lib
-COPY --from=build /app/build/libs/META-INF /app/META-INF
-COPY --from=build /app/build/libs/BOOT-INF/classes /app
-
-# Define the entry point
-ENTRYPOINT ["java","-cp","app:app/lib/*","dev.cstraka.bungle.BungleApplication"]
+WORKDIR app
+COPY --from=builder app/dependencies/ ./
+COPY --from=builder app/spring-boot-loader/ ./
+COPY --from=builder app/snapshot-dependencies/ ./
+COPY --from=builder app/application/ ./
+ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"]
