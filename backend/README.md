@@ -36,4 +36,6 @@ https://developer.spotify.com/documentation/web-playback-sdk
 - The user can "bungle" an article
 - The user can turn on pinyin for that data
 
+## CI with github actions and vclusters
+
 https://www.namecheap.com/domains/registration/results/?domain=bungle

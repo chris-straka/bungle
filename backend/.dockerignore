@@ -1,3 +1,15 @@
-docs
 build
+docs
+http
+out
+target
+
+.gitignore
+.git
 .vscode
+.DS_Store
+.vscode
+.idea/
+*.iml
+*.log
+*.md

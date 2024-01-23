@@ -1,13 +1,23 @@
-FROM amazoncorretto:21 as builder
+FROM amazoncorretto:21 as dev
 WORKDIR app
-ARG JAR_FILE=build/libs/*.jar
-COPY ${JAR_FILE} app.jar
+CMD ./gradlew bootRun
+
+FROM amazoncorretto:21 as build
+WORKDIR app
+COPY gradlew .gradle *.gradle.kts .
+RUN ./gradlew bootJar
+
+FROM amazoncorretto:21 as layered
+WORKDIR /app
+COPY --from=build /app/build/libs/*.jar app.jar
 RUN java -Djarmode=layertools -jar app.jar extract
 
-FROM amazoncorretto:21
+# I will have to look into permissions later
+FROM amazoncorretto:21 as prod
 WORKDIR app
-COPY --from=builder app/dependencies/ ./
-COPY --from=builder app/spring-boot-loader/ ./
-COPY --from=builder app/snapshot-dependencies/ ./
-COPY --from=builder app/application/ ./
+COPY --from=layered app/dependencies .
+COPY --from=layered app/spring-boot-loader .
+COPY --from=layered app/snapshot-dependencies .
+COPY --from=layered app/application .
+USER 1000
 ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"]
