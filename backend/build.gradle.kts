@@ -20,6 +20,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-graphql")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+  implementation("org.springframework.session:spring-session-core")
   implementation("io.opentelemetry:opentelemetry-api")
 	implementation("org.postgresql:postgresql:42.7.1")
   implementation(platform("io.opentelemetry:opentelemetry-bom:1.34.1"))

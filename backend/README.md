@@ -8,6 +8,9 @@ Install docker desktop https://www.docker.com/products/docker-desktop/
 ./gradlew bootRun 
 
 # refresh gradle after adding dependencies
+./gradlew --refresh-dependencies 
+
+# maybe this instead? 
 ./gradlew clean build --refresh-dependencies 
 ```
 

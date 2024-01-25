@@ -21,14 +21,15 @@ public class AuthController {
         this.authenticationManager = authenticationManager;
     }
 
-    @PostMapping("/session")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsername(),
-                        loginRequest.getPassword()));
+    @PostMapping("/login")
+    public ResponseEntity<Void> login(@RequestBody LoginRequest loginRequest) {
+        Authentication authenticationRequest = UsernamePasswordAuthenticationToken
+                .unauthenticated(loginRequest.username, loginRequest.password);
+        Authentication authenticationResponse = this.authenticationManager.authenticate(authenticationRequest);
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        return ResponseEntity.ok().body("User logged in successfully");
+        return null;
     }
+
+    // record -> java 16 immutable data class
+    public record LoginRequest(String username, String password) {}
 }
