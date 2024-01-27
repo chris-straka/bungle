@@ -18,7 +18,7 @@ This means you can't store the session somewhere else by default, like in Redis.
 
 ## Spring Security Authentication Architecture
 
-/login
+POST /sessions
 
 1. HTTP Request Sent
 2. An Authentication object is created by the AbstractAuthenticationProcessingFilter (AO.isAuthenticated() === False)

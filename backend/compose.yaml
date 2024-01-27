@@ -1,5 +1,7 @@
-# only for development
 version: "3.8"
+
+# Development compose.yaml
+
 services:
   server:
     build:
@@ -11,6 +13,11 @@ services:
       - 8080
     depends_on:
       - db
+
+  redis:
+    image: redis:7.2.4
+    ports:
+      - 6379
 
   db:
     image: postgres:16.1

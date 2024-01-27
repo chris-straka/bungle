@@ -9,9 +9,7 @@ Install docker desktop https://www.docker.com/products/docker-desktop/
 
 # refresh gradle after adding dependencies
 ./gradlew --refresh-dependencies 
-
-# maybe this instead? 
-./gradlew clean build --refresh-dependencies 
+# Then in vscode -> Developer: Reload Window (there must be a better way lol)
 ```
 
 ## Auth
