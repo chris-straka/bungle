@@ -1,5 +1,10 @@
 # Testing
 
+```java
+import org.junit.Test; // WRONG (junit4)
+import org.junit.jupiter.api.Test; // RIGHT (junit5)
+```
+
 ## Testcontainers in development
 
 When they say "testcontainers at development time" they're referring to ./gradlew bootTestRun

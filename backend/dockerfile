@@ -1,6 +1,3 @@
-FROM amazoncorretto:21 as dev
-WORKDIR app
-
 FROM amazoncorretto:21 as build
 WORKDIR app
 COPY gradlew .gradle *.gradle.kts .

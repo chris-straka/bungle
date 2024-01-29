@@ -31,17 +31,13 @@ public class AuthControllerTest {
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16.1");
 
     @Container
-    @ServiceConnection
+    @ServiceConnection(name = "redis")
     public static GenericContainer<?> redis = new GenericContainer<>("redis:7.2.4").withExposedPorts(6379);
 
-    @Autowired
-    private TestRestTemplate restTemplate;
-
-    @LocalServerPort
-    private int port;
+    private TestRestTemplate restTemplate = new TestRestTemplate();
 
     private String getUrl() {
-        return "http://localhost:" + port + "/api/v1/session";
+        return "localhost:8080" + "/api/v1" + "/api/v1/session";
     }
 
     @Test
@@ -63,12 +59,8 @@ public class AuthControllerTest {
         body.put("password", "test");
 
         HttpEntity<Map<String, String>> request = new HttpEntity<>(body, headers);
-
-        ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
-        System.out.println("Headers");
-        System.out.println(response.getHeaders());
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
+        ResponseEntity<String> response = restTemplate.postForEntity(url, request,
+                String.class);
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
     }
 }

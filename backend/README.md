@@ -1,19 +1,29 @@
 # Bungle
 
-Install a jdk https://docs.aws.amazon.com/corretto/latest/corretto-21-ug/downloads-list.html
-Install docker desktop https://www.docker.com/products/docker-desktop/
+1. Install jdk version 21 https://docs.aws.amazon.com/corretto/latest/corretto-21-ug/downloads-list.html
+2. Install docker desktop and run it https://www.docker.com/products/docker-desktop/
 
-## Make sure docker desktop is running !
+Development
 
 ```bash
-# Development
-./gradlew bootRun 
+# Terminal A
+./gradlew build --continuous --parallel 
 
-# Testing
-./gradlew test 
+# Terminal B
+./gradlew bootRun
+```
+
+Testing
+
+```bash
+# Run tests
 ./gradlew test --continuous
+```
 
-# refresh gradle after adding dependencies
+Dependencies
+
+```bash
+# Refresh gradle after adding dependencies
 ./gradlew --refresh-dependencies 
 # Then in vscode -> Developer: Reload Window (there must be a better way lol)
 ```

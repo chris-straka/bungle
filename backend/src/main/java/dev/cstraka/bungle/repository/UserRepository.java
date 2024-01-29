@@ -1,9 +1,9 @@
-// package dev.cstraka.bungle.repository;
+package dev.cstraka.bungle.repository;
 
-// import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-// import dev.cstraka.bungle.model.UserEntity;
+import dev.cstraka.bungle.model.UserEntity;
 
-// public interface UserRepository extends JpaRepository<UserEntity, Long> {
-//     UserEntity findByUsername(String username);
-// }
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
+    UserEntity findByUsername(String username);
+}

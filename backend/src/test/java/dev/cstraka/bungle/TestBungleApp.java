@@ -15,7 +15,6 @@ import org.testcontainers.containers.PostgreSQLContainer;
  */
 @TestConfiguration
 public class TestBungleApp {
-
     // This has nothing to do with ./gradlew test
     // This is just to provide the DB container during development
     @Bean
