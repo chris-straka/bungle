@@ -1,5 +1,5 @@
-package dev.cstraka.bungle.repository;
+// package dev.cstraka.bungle.repository;
 
-public class PasswordRepository {
+// public class PasswordRepository {
     
-}
+// }

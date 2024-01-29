@@ -3,9 +3,15 @@
 Install a jdk https://docs.aws.amazon.com/corretto/latest/corretto-21-ug/downloads-list.html
 Install docker desktop https://www.docker.com/products/docker-desktop/
 
+## Make sure docker desktop is running !
+
 ```bash
-# Make sure docker desktop is running 
+# Development
 ./gradlew bootRun 
+
+# Testing
+./gradlew test 
+./gradlew test --continuous
 
 # refresh gradle after adding dependencies
 ./gradlew --refresh-dependencies 

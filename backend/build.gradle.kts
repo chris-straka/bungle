@@ -1,3 +1,6 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
 plugins {
 	java
 	id("org.springframework.boot") version "3.2.2"
@@ -19,6 +22,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-graphql")
 	implementation("org.springframework.boot:spring-boot-starter-security")
+  implementation("org.springframework.boot:spring-boot-starter-data-redis")
 	implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("org.springframework.session:spring-session-core")
   implementation("org.springframework.session:spring-session-data-redis")
@@ -28,7 +32,6 @@ dependencies {
   implementation(platform("io.opentelemetry:opentelemetry-bom:1.34.1"))
   developmentOnly("org.springframework.boot:spring-boot-docker-compose")
 	testAndDevelopmentOnly("org.springframework.boot:spring-boot-devtools")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework:spring-webflux")
 	testImplementation("org.springframework.graphql:spring-graphql-test")
 	testImplementation("org.springframework.security:spring-security-test")
@@ -36,20 +39,31 @@ dependencies {
   testImplementation("org.springframework.boot:spring-boot-testcontainers")
   testImplementation("org.testcontainers:junit-jupiter")
   testImplementation("org.testcontainers:postgresql")
+  testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 tasks.withType<Test> {
 	useJUnitPlatform()
-}
+	testLogging {
+		events = setOf(
+			TestLogEvent.FAILED,
+			TestLogEvent.PASSED,
+			TestLogEvent.SKIPPED,
+		)
+		exceptionFormat = TestExceptionFormat.FULL
+		showExceptions = true
+		showStackTraces = true
+		showCauses = true
 
-tasks.register<Exec>("dev") {
-	group = "Application"
-	description = "Runs the project using docker for manual testing"
-	commandLine("docker-compose", "up")
-}
-
-tasks.register<Exec>("tdd") {
-	group = "Application"
-	description = "Runs the project with continuous testing"
-	commandLine("./gradlew", "test", "--continuous")
+		debug {
+			events = setOf(
+				TestLogEvent.FAILED,
+				TestLogEvent.PASSED,
+				TestLogEvent.SKIPPED,
+				TestLogEvent.STANDARD_ERROR,
+				TestLogEvent.STANDARD_OUT
+			)
+			exceptionFormat = TestExceptionFormat.FULL
+		}
+	}
 }

@@ -1,6 +1,5 @@
 FROM amazoncorretto:21 as dev
 WORKDIR app
-CMD ./gradlew bootRun
 
 FROM amazoncorretto:21 as build
 WORKDIR app

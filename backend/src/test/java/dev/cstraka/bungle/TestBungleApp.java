@@ -7,14 +7,14 @@ import org.springframework.context.annotation.Bean;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 /**
- * This file is only for ./gradlew bootTestRun !!!!!!!
+ * This file is only for ./gradlew bootTestRun
  * It's for developing locally using testcontainers
  * It doesn't run any tests! It's not ./gradlew test
  * It doesn't use my compose.yaml file. It creates one.
  * It runs my main java files, not my test files
  */
 @TestConfiguration
-public class TestBungleApplication {
+public class TestBungleApp {
 
     // This has nothing to do with ./gradlew test
     // This is just to provide the DB container during development
@@ -31,8 +31,8 @@ public class TestBungleApplication {
 
     public static void main(String[] args) {
         SpringApplication
-                .from(BungleApplication::main)
-                .with(TestBungleApplication.class)
+                .from(BungleApp::main)
+                .with(TestBungleApp.class)
                 .run(args);
     }
 }

@@ -2,6 +2,7 @@ package dev.cstraka.bungle.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,14 +19,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import dev.cstraka.bungle.controller.UserController.UserDto;
-
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AuthControllerTest {
+    @Container
+    @ServiceConnection
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16.1");
+
     @Container
     @ServiceConnection
     public static GenericContainer<?> redis = new GenericContainer<>("redis:7.2.4").withExposedPorts(6379);
@@ -41,7 +45,15 @@ public class AuthControllerTest {
     }
 
     @Test
-    void testLogin() {
+    void connectionEstablished() {
+        assertTrue(postgres.isCreated());
+        assertTrue(postgres.isRunning());
+        assertTrue(redis.isCreated());
+        assertTrue(redis.isRunning());
+    }
+
+    @Test
+    void myTest() {
         String url = getUrl();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -51,8 +63,10 @@ public class AuthControllerTest {
         body.put("password", "test");
 
         HttpEntity<Map<String, String>> request = new HttpEntity<>(body, headers);
-        
-        ResponseEntity<UserDto> response = restTemplate.postForEntity(url, request, UserDto.class);
+
+        ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+        System.out.println("Headers");
+        System.out.println(response.getHeaders());
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
