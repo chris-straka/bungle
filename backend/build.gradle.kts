@@ -22,13 +22,11 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-graphql")
 	implementation("org.springframework.boot:spring-boot-starter-security")
-  implementation("org.springframework.boot:spring-boot-starter-data-redis")
 	implementation("org.springframework.boot:spring-boot-starter-web")
-  implementation("org.springframework.session:spring-session-core")
-  implementation("org.springframework.session:spring-session-data-redis")
   implementation("io.opentelemetry:opentelemetry-api")
 	implementation("org.postgresql:postgresql")
   implementation(platform("io.opentelemetry:opentelemetry-bom:1.34.1"))
+  implementation("net.datafaker:datafaker:2.0.2")
   developmentOnly("org.springframework.boot:spring-boot-docker-compose")
 	testAndDevelopmentOnly("org.springframework.boot:spring-boot-devtools")
   testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -46,7 +44,6 @@ tasks.withType<Test> {
 	testLogging {
 		events = setOf(
 			TestLogEvent.FAILED,
-			TestLogEvent.PASSED,
 			TestLogEvent.SKIPPED,
 		)
 		exceptionFormat = TestExceptionFormat.FULL

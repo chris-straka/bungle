@@ -10,6 +10,7 @@ RUN java -Djarmode=layertools -jar app.jar extract
 
 # I will have to look into permissions later
 FROM amazoncorretto:21 as prod
+ENV SPRING_PROFILES_ACTIVE=prod
 WORKDIR app
 COPY --from=layered app/dependencies .
 COPY --from=layered app/spring-boot-loader .

@@ -1,12 +1,30 @@
 spring:
+  profiles:
+    default: "dev"
+---
+spring:
+  config:
+    activate: 
+      on-profile: "dev"
   devtools:
     livereload:
       enabled: true
     restart:
       poll-interval: 2s
+  jpa:
+    hibernate:
+      ddl-auto: update
 
 logging:
   level:
     org:
       springframework:
         security: TRACE
+---
+# java -jar app.jar -Dspring.profiles.active=prod
+# or 
+# SPRING_PROFILES_ACTIVE=prod java -jar app.jar
+spring:
+  config:
+    activate: 
+      on-profile: "prod"

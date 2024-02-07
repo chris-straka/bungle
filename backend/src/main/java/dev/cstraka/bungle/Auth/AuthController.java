@@ -1,12 +1,9 @@
-package dev.cstraka.bungle.controller;
+package dev.cstraka.bungle.Auth;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +20,7 @@ public class AuthController {
         this.authenticationManager = authenticationManager;
     }
 
-    @PostMapping("/session")
+    @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
         Authentication authenticationRequest = UsernamePasswordAuthenticationToken
                 .unauthenticated(loginRequest.username, loginRequest.password);
@@ -32,14 +29,6 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authenticationResponse);
 
         return ResponseEntity.ok().body(loginRequest.username);
-    }
-
-    @DeleteMapping("/session")
-    public ResponseEntity<Void> logout(HttpServletRequest request) {
-        SecurityContextHolder.clearContext();
-        request.getSession().invalidate(); // Invalidate the session
-
-        return ResponseEntity.noContent().build();
     }
 
     // record -> java 16 immutable data class

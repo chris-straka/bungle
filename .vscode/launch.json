@@ -1,0 +1,21 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-BungleApp<backend>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "dev.cstraka.bungle.BungleApp",
+      "projectName": "backend",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Debug (Attach) - Gradle Tests",
+      "request": "attach",
+      "hostName": "localhost",
+      "port": 5005
+    }
+  ]
+}

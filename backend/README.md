@@ -18,6 +18,10 @@ Testing
 ```bash
 # Run tests
 ./gradlew test --continuous
+
+# Debug tests
+./gradlew test --debug-jvm
+# Then go to the debug pannel and attach the debugger to localhost:5005
 ```
 
 Dependencies

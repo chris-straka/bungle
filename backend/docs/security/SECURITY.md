@@ -1,12 +1,11 @@
 # Security Notes
 
-## Spring Session
+## Adaptive One Way Functions For Password Hashing
 
-When Spring Session talks about "container-neutral" solutions, they're not talking about docker.
-They're talking about servlet containers (Tomcat, Jetty).
-
-Spring's default session management ties the session to the Tomcat servlet container (server memory)
-This means you can't store the session somewhere else by default, like in Redis.
+SHA-256 is no longer secure, modern hardware can hash billions per second.
+We now use adaptive one-way functions (bcrypt, argon2, etc) that are resource intensive. 
+"Adaptive" meaning they have a "work factor" that scales with better hardware 
+Initial logins are slow with one-way funcs, so you need sessions/tokens for things to stay fast.
 
 ## Servlet Architecture
 
@@ -33,18 +32,10 @@ POST /sessions
 1. Filter checks the SecurityContext and looks for isAuthenticated()
 2. If False, AuthenticationEntryPoint decides whether to redirect to login or send 401.
 
-## JWT stuff
-
-From Ben Awad (see references)
-
-"""
-Putting a JWT token in localstorage makes it obtainable for hackers in XSS attacks -> Object.keys(localStorage)
-However, hiding it from JS by putting it in an HTTP Only token doesn't help either -> fetch(url)
-What can help, is form validation and reprompting the user for their password before making serious requests
-"""
-
 ## Resources
 
 [How to handle Auth](https://stackoverflow.com/questions/75571606)
 
-[Ben Awad conversation on Auth](https://www.youtube.com/watch?v=vq861XoZI9k)
+[Helpful security stuff](https://www.youtube.com/watch?v=fZwYYD7La4I)
+
+[Do login forms need CSRF tokens?](https://stackoverflow.com/questions/6412813)

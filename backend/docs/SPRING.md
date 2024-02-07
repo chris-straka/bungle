@@ -41,4 +41,3 @@ WebFlux is better for IO tasks (everything else)
 
 - image/audio/video streaming
 - lots of network or DB operations
-- 
