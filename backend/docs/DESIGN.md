@@ -1,6 +1,10 @@
-In my API, it's not feasible to have DI for my rich data models in some cases. 
-If I have a route that creates a new Entity, I have to instantiate it somewhere and then save it via an entityRepository.
-I don't know how many entities I'll need on startup. I do know I will need a single repo on startup though
+# Design
+
+### DDD
+
+The repositories can be created once on application startup, making DI/testing easy.
+However, I can't do this for my rich data models because they're created dynamically.
+So somewhere in my application, I have to instantiate them, they can't be IoC'd.
 
 [Using the same entity for different user cases](https://softwareengineering.stackexchange.com/questions/392047)
 

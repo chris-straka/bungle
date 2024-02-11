@@ -24,8 +24,9 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import dev.cstraka.bungle.User.UserEntity;
-import dev.cstraka.bungle.User.UserRepository;
+import dev.cstraka.bungle.user.User;
+import dev.cstraka.bungle.user.UserRepository;
+import dev.cstraka.bungle.user.UserRole;
 import net.datafaker.Faker;
 
 @Testcontainers
@@ -50,14 +51,14 @@ public class AuthIntegTest {
     private static final Faker faker = new Faker();
     private String username;
     private String password;
-    private UserEntity userEntity;
+    private User userEntity;
 
     @BeforeEach
     void addUser() {
         username = faker.internet().username();
         password = faker.internet().password();
 
-        userEntity = new UserEntity(username, password);
+        userEntity = new User(username, password, UserRole.USER);
         userRepository.save(userEntity);
     }
 

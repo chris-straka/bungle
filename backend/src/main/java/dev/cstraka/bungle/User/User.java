@@ -1,31 +1,40 @@
-package dev.cstraka.bungle.User;
+package dev.cstraka.bungle.user;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashSet;
 
 import jakarta.persistence.*;
-import jakarta.persistence.Id;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table
-public class UserEntity {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(unique = true, nullable = false)
     private String username;
+
     @Column(nullable = false)
     private String password;
-    private List<String> familiarWords;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
+
+    private HashSet<String> familiarWords;
 
     // https://stackoverflow.com/questions/2808747
-    public UserEntity() {
+    public User() {
     }
 
-    public UserEntity(String username, String password) {
+    public User(String username, String password, UserRole userRole) {
         this.username = username;
         this.password = password;
-        this.familiarWords = new ArrayList<String>();
+        this.userRole = userRole;
+        this.familiarWords = new HashSet<String>();
     }
 
     public Long getId() {
@@ -52,11 +61,11 @@ public class UserEntity {
         this.password = password;
     }
 
-    public List<String> getFamiliarWords() {
+    public HashSet<String> getFamiliarWords() {
         return this.familiarWords;
     }
 
-    public void setFamiliarWords(List<String> familiarWords) {
+    public void setFamiliarWords(HashSet<String> familiarWords) {
         this.familiarWords = familiarWords;
     }
 
@@ -82,5 +91,33 @@ public class UserEntity {
 
     public void clearFamiliarWords() {
         familiarWords.clear();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return role.getAuthorities();
     }
 }

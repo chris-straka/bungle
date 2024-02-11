@@ -1,41 +1,55 @@
-package dev.cstraka.bungle.User;
+package dev.cstraka.bungle.user;
 
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.net.URI;
+import java.security.Principal;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/user")
 public class UserController {
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @PostMapping("/user")
-    public ResponseEntity<UserDto> signup(@RequestBody UserDto userDto) {
-        UserDto createdUser = userService.createUser(userDto);
-        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
-    // @PutMapping("/user/{id}")
-    // public SomeEnityData putMethodName(@PathVariable String id, @RequestBody SomeEnityData entity) {
-        
-    //     return entity;
-    // }
+    @PostMapping
+    public ResponseEntity<UserDto> signup(@RequestBody UserDto userDto) {
+        UserDto createdUser = userService.createUser(userDto);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{username}")
+                .buildAndExpand(createdUser.username())
+                .toUri();
+        return ResponseEntity.created(location).body(createdUser);
+    }
 
-    @DeleteMapping("/user")
+    @PatchMapping
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest request,
+            Principal connectedUser) {
+        userService.changePassword(request, connectedUser);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping
     public ResponseEntity<Void> deleteMe(Authentication authentication) {
         String username = authentication.getName();
         userService.deleteUser(username);
         return ResponseEntity.noContent().build();
     }
 
-    public record UserDto(String username, String password) {
+    public record ChangePasswordRequest(String currentPassword, String newPassword, String confirmationPassword) {
+    }
+
+    public record UserDto(String username, String password, UserRole userRole) {
     }
 }

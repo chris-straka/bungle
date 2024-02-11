@@ -9,6 +9,9 @@ docker.client.strategy=org.testcontainers.dockerclient.UnixSocketClientProviderS
 testcontainers.reuse.enable=true
 ```
 
+### @Container
+This gives control of the container's lifecycle to spring
+
 ## Testcontainers in development
 
 When they say "testcontainers at development" they mean ./gradlew bootTestRun not ./gradlew test
@@ -27,3 +30,5 @@ When they say "testcontainers at development" they mean ./gradlew bootTestRun no
 [Reusing testcontainers](https://rieckpil.de/reuse-containers-with-testcontainers-for-fast-integration-tests/)
 
 [Reusing testcontainers](https://logarithmicwhale.com/posts/faster-tests-by-resuing-testcontainers-in-spring-boot/)
+
+[How to reuse Testcontainers between multiple SpringBootTests](https://stackoverflow.com/questions/62425598)
