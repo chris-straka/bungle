@@ -26,7 +26,7 @@ public class UserService {
     }
 
     public void deleteUser(String username) {
-        User user = userRepository.findByEmail(username).orElseThrow();
+        User user = userRepository.findByUsername(username).orElseThrow();
         if (user != null)
             userRepository.delete(user);
     }

@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dev.cstraka.bungle.auth.AuthService.AuthenticationResponse;
-import dev.cstraka.bungle.auth.AuthService.RegisterRequest;
+import dev.cstraka.bungle.auth.AuthenticationService.AuthenticationResponse;
+import dev.cstraka.bungle.auth.AuthenticationService.RegisterRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -16,29 +16,29 @@ import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api/v1/auth")
-public class AuthController {
-    final public AuthService authService;
+public class AuthenticationController {
+    final public AuthenticationService authenticationService;
 
-    public AuthController(AuthService authService) {
-        this.authService = authService;
+    public AuthenticationController(AuthenticationService authService) {
+        this.authenticationService = authService;
     }
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest request) {
-        return ResponseEntity.ok(authService.register(request));
+        return ResponseEntity.ok(authenticationService.register(request));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody LoginRequest loginRequest) {
-        return ResponseEntity.ok(authService.login(loginRequest));
+    public ResponseEntity<AuthenticationResponse> login(@RequestBody LoginRequest request) {
+        return ResponseEntity.ok(authenticationService.login(request));
     }
 
     @PostMapping("/refresh-token")
     public void refreshToken(
             HttpServletRequest request,
             HttpServletResponse response) throws IOException {
-        authService.refreshToken(request, response);
+        authenticationService.refreshToken(request, response);
     }
 
     // record -> java 16 immutable data class

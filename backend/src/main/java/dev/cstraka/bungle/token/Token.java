@@ -27,7 +27,7 @@ public class Token {
     public Token() {
     }
 
-    public Token(User user, String token, TokenType tokenType, boolean revoked, boolean expired) {
+    public Token(User user, String token, TokenType tokenType, boolean expired, boolean revoked) {
         this.user = user;
         this.token = token;
         this.tokenType = tokenType;

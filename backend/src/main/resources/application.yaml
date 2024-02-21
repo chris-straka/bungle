@@ -3,8 +3,10 @@ spring:
     default: "dev"
 ---
 spring:
+  application:
+    name: Bungle
   config:
-    activate: 
+    activate:
       on-profile: "dev"
   devtools:
     livereload:
@@ -14,17 +16,27 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-
+    show-sql: true
 logging:
   level:
     org:
       springframework:
         security: TRACE
+
+# https://acte.ltd/utils/randomkeygen/ for the 256 bit encryption key
+# https://magictool.ai/tool/text-to-hex-converter/ to convert to hex
+application:
+  security:
+    jwt:
+      secret-key: 356861783554485748454846664e4251784166396a424a566247686155617830
+      expiration: 86400000 # milliseconds in a day
+      refresh-token:
+        expiration: 604800000 # milliseconds in 7 days for dev
 ---
 # java -jar app.jar -Dspring.profiles.active=prod
-# or 
+# or
 # SPRING_PROFILES_ACTIVE=prod java -jar app.jar
 spring:
   config:
-    activate: 
+    activate:
       on-profile: "prod"

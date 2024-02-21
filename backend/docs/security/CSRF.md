@@ -42,7 +42,7 @@ This can happen when...
 3. The user waits long enough for the session cookie to expire
 4. They then try to login and get thrown a timeout error
 
-## Logout CSRF (making the user logout)
+## Logout CSRF (Making the user logout)
 
 The attacker makes the user logout, then they follow up with a login CSRF.
 

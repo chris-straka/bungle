@@ -27,9 +27,13 @@ dependencies {
 	implementation("org.postgresql:postgresql")
   implementation(platform("io.opentelemetry:opentelemetry-bom:1.34.1"))
   implementation("net.datafaker:datafaker:2.0.2")
-	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
-	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
-	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
+
+	// The reason why jjwt split the api, impl, json parser into different modules
+	// is to allow us to swap the impl or json parser for something else
+	implementation("io.jsonwebtoken:jjwt-api:0.12.5")
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.5")
+	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.5")
+
   developmentOnly("org.springframework.boot:spring-boot-docker-compose")
 	testAndDevelopmentOnly("org.springframework.boot:spring-boot-devtools")
   testImplementation("org.springframework.boot:spring-boot-starter-test")

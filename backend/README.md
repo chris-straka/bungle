@@ -2,6 +2,10 @@
 
 1. Install jdk version 21 https://docs.aws.amazon.com/corretto/latest/corretto-21-ug/downloads-list.html
 2. Install docker desktop and run it https://www.docker.com/products/docker-desktop/
+3. (Optional) `brew install spring-boot` if on Mac
+
+See BUNGLE.md for an explanation of what this API does.
+See /docs for my other notes.
 
 #### Development
 
@@ -42,6 +46,6 @@ Dependencies
 ./gradlew bootJar
 ```
 
-#### Resources
+##### Dependencies
 
-See docs for my notes.
+https://github.com/jwtk/jjwt

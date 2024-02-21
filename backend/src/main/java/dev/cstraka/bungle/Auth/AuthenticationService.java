@@ -12,7 +12,7 @@ import org.springframework.http.HttpHeaders;
 import java.io.IOException;
 import java.util.List;
 
-import dev.cstraka.bungle.auth.AuthController.LoginRequest;
+import dev.cstraka.bungle.auth.AuthenticationController.LoginRequest;
 import dev.cstraka.bungle.token.Token;
 import dev.cstraka.bungle.token.TokenRepository;
 import dev.cstraka.bungle.token.TokenType;
@@ -23,14 +23,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Service
-public class AuthService {
+public class AuthenticationService {
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
-    public AuthService(
+    public AuthenticationService(
             UserRepository userRepository,
             TokenRepository tokenRepository,
             AuthenticationManager authenticationManager,
@@ -47,7 +47,7 @@ public class AuthService {
         User user = new User(
                 req.username(),
                 passwordEncoder.encode(req.password()),
-                req.role);
+                UserRole.USER);
 
         User savedUser = userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
@@ -62,11 +62,14 @@ public class AuthService {
                 new UsernamePasswordAuthenticationToken(
                         request.username(),
                         request.password()));
-        User user = userRepository.findByEmail(request.username())
+
+        User user = userRepository
+                .findByUsername(request.username())
                 .orElseThrow();
+
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
-        revokeAllUserTokens(user);
+        revokeUserTokens(user);
         saveUserToken(user, jwtToken);
         return new AuthenticationResponse(jwtToken, refreshToken);
     }
@@ -81,7 +84,7 @@ public class AuthService {
         tokenRepository.save(token);
     }
 
-    private void revokeAllUserTokens(User user) {
+    private void revokeUserTokens(User user) {
         List<Token> validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
 
         if (validUserTokens.isEmpty())
@@ -98,23 +101,22 @@ public class AuthService {
     public void refreshToken(
             HttpServletRequest request,
             HttpServletResponse response) throws IOException {
-
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         final String refreshToken;
-        final String userEmail;
-
+        final String username;
         if (authHeader == null || !authHeader.startsWith("Bearer "))
             return;
 
         refreshToken = authHeader.substring(7);
-        userEmail = jwtService.extractUsername(refreshToken);
+        username = jwtService.extractUsername(refreshToken);
 
-        if (userEmail != null) {
-            var user = this.userRepository.findByEmail(userEmail)
+        if (username != null) {
+            var user = this.userRepository.findByUsername(username)
                     .orElseThrow();
+
             if (jwtService.isTokenValid(refreshToken, user)) {
                 var accessToken = jwtService.generateToken(user);
-                revokeAllUserTokens(user);
+                revokeUserTokens(user);
                 saveUserToken(user, accessToken);
 
                 var authResponse = new AuthenticationResponse(accessToken, refreshToken);

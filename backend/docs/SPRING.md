@@ -1,11 +1,12 @@
 # Spring
 
-### Contexts
+### Context
 
-The application context or spring container manages beans. 
-In a multimodule project, each module can be its own application context.
+The application context (or spring container) manages beans. 
+Beans are objects that you can DI anywhere. It makes for loose coupling and easy tests. 
+In a multi-module project, each module can be its own application context.
 
-There's also a sessions context, security context, etc.
+There's also a sessions context, a security context, etc.
 
 ### "Stereotypes"
 
