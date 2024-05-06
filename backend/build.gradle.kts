@@ -3,7 +3,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
 	java
-	id("org.springframework.boot") version "3.2.2"
+	id("org.springframework.boot") version "3.2.5"
 	id("io.spring.dependency-management") version "1.1.4"
 }
 
@@ -19,10 +19,19 @@ repositories {
 }
 
 dependencies {
+	// Spring dependencies
+  annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+  implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-graphql")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+  implementation("org.springframework.session:spring-session-data-redis")
+
+	// Redis client
+  implementation("io.lettuce:lettuce-core:6.3.2.RELEASE")
+
   implementation("io.opentelemetry:opentelemetry-api")
 	implementation("org.postgresql:postgresql")
   implementation(platform("io.opentelemetry:opentelemetry-bom:1.34.1"))
@@ -43,6 +52,7 @@ dependencies {
   testImplementation("org.springframework.boot:spring-boot-testcontainers")
   testImplementation("org.testcontainers:junit-jupiter")
   testImplementation("org.testcontainers:postgresql")
+
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 

@@ -18,3 +18,9 @@ I can't do this for rich domain models though, because they often have to be cre
 [Using the same entity for different user cases](https://softwareengineering.stackexchange.com/questions/392047)
 
 [Migration From Anemic Models to Rich Models](https://softwareengineering.stackexchange.com/questions/386432)
+
+## How to do rich domains
+
+You create the Entity() in the service layer
+Entity.businessLogicThatChangesTheCurrentState()
+entityRepository.save(Entity)

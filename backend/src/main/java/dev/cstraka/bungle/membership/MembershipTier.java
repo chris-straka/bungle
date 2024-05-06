@@ -10,7 +10,7 @@ public class MembershipTier {
 
     // e.g., "Standard", "Premium", "VIP"
     @Column(nullable = false)
-    private String name;
+    private String tier_name;
 
     @Column(nullable = false)
     private Integer maxFamiliarWords;

@@ -31,8 +31,8 @@ Dependencies
 
 ```bash
 # Refresh gradle after adding dependencies
-# Vscode -> Developer: Reload Window (this is ridiculous, there must be a better way lol)
 ./gradlew --refresh-dependencies 
+# Vscode -> Developer: Reload Window (this is ridiculous, there must be a better way lol)
 ```
 
 #### Build
@@ -45,7 +45,3 @@ Dependencies
 # It's a fat jar and includes classes, resoureces, dependencies, etc.
 ./gradlew bootJar
 ```
-
-##### Dependencies
-
-https://github.com/jwtk/jjwt

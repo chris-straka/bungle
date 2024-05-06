@@ -5,6 +5,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import dev.cstraka.bungle.user.UserController.ChangePasswordRequest;
 import dev.cstraka.bungle.user.UserController.UserDto;
+import dev.cstraka.bungle.user.jpa.User;
 
 import java.security.Principal;
 
@@ -38,6 +39,7 @@ public class UserService {
         if (!passwordEncoder.matches(request.currentPassword(), user.getPassword())) {
             throw new IllegalStateException("Wrong password");
         }
+
         // check if the two new passwords are the same
         if (!request.newPassword().equals(request.confirmationPassword())) {
             throw new IllegalStateException("Passwords are not the same");
